@@ -1,1 +1,95 @@
-<iframe src='./PhotoPik/photopikhelpmain.html?jsname=todaypikdata&lang=en' width=320 height=568></iframe>
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style type="text/css">
+.sectiontitle{background-color:#eeeeee;color: #555555;;text-align:center; padding:5% 3% 1% 3%;margin:2%;font-size: 125%;}
+.sectioncontent{background-color:#ffffff; padding:2%;margin:2%;font-size: 100%;}
+</style>
+<script type="text/javascript">
+var doclocSearch=document.location.search;
+if (!doclocSearch) {
+	doclocSearch="?jsname=todaypikdata&lang=en";
+//	alert(doclocSearch);
+}
+var GetQuery=function(){
+//	if (1 < document.location.search.length) {
+	if (1 < doclocSearch.length) {
+//		var query = document.location.search.substring(1);
+		var query = doclocSearch.substring(1);
+		var parameters = query.split('&');
+		var result = new Object();
+		for (var i = 0; i < parameters.length; i++) {
+			var element = parameters[i].split('=');
+			var paramName = decodeURIComponent(element[0]);
+			var paramValue = decodeURIComponent(element[1]);
+			result[paramName] = decodeURIComponent(paramValue);
+		}
+		return result;
+	}
+	return null;
+}
+var query=GetQuery();
+</script>
+<script type="text/javascript">
+var loadData=function () {
+	var lang=query.lang;
+	var t=document.getElementsByTagName("table").item(0); 
+	var tbody=t.innerHTML;
+	var tbodies=[];
+	var items;
+	if ('ja'==lang) {
+		items=jaData.items;
+	}else{
+		items=enData.items;
+	}
+	//alert(items);
+	for (var i = 0; i < items.length; i++) {
+		var rtbody=tbody;
+		rtbody=rtbody.replace('-title-', items[i].title);
+		rtbody=rtbody.replace('-text-', items[i].text);
+		rtbody=rtbody.replace('-src-', items[i].imgSource);
+	//	alert(rtbody);
+		tbodies.push(rtbody);
+	}
+	//alert(tbodies);
+	t.innerHTML=tbodies.join('');
+};
+</script>
+</head>
+
+
+<body style="background-color:#eeeeee;">
+
+<table valign="top" cellpadding=0 style="padding:0px; border:0px;width:100%;height:100%;">
+<tr><td style="width:100%;" colspan="2">
+    <div style="text-align:center;padding:3%;font-size: 200%;background-color:#444444;color:#dddddd;">PhotoPik Localization</div>
+</td></tr>
+<tr ><td valign="top" style="background-color:#eeeeee;text-align:center; height:1024px;">
+    <div class="sectiontitle" style="">Instruction Page Example</div>
+    <iframe height="50%" width="32%" src="./PhotoPik/photopikhelpmain.html" style="position:absolute;background-color:white;margin:1% 8%;"></iframe>
+</td><td valign="top" style="background-color:#eeeeee; width:50%;">
+    <div class="sectiontitle">Instruction Page Localize</div>
+    <div class="sectioncontent">Instruction page text is in [application name]data.js file. You can add a language text as hash array. For example, Adding japanese localization should insert following code.
+ <br><br><span style=""> var jaData={"items":[
+     {	"title":"1. グループ選択",
+     "text":"このアプリケーションで使いたい写真を含むグループを選択してください。選択が終わったら右上の「完了」ボタンをタップしてください。どのグループを選択するか決められない場合は、「フォトライブラリ」を選んでください。初めてグループ選択をした場合、写真500枚につき1分ほどの処理時間がかかります。",
+     "imgSource":"selectgroup-ja.jpg"}, .... ]};</span> <br /><br>So, the format is ...<br /><br> <span>var [langage name]Data=={"items":[{"title":"[section title]","text":"[section text]","imgSource":"[image esource path]"}, .... ]};</span> <br><br>[language name] should be replaced 2 literals representing a language. [section title] and [section text] should be replaced with localized text. [image source path] should be replaced localised image path.</div>
+    <div class="sectiontitle">Application Localize</div>
+    <div class="sectioncontent">Application Localize use 2 files 'Localizable.strings' and 'MainStoryboard_iPhone.strings'. Each files store localize strings like ...<br><br>"Analyzing Photo Date" = "写真の日付を解析中";<br><br> So, the format is ...<br><br> "[original phrase]"="[localised phrase]"<br><br> Only [localised phrase] should be replased with localized words.</div>
+    <div class="sectiontitle">Resources</div>
+    <div class="sectioncontent">Resources for localization is downloadable from following link as a zip file. <br><br><a href="https://github.com/masa07/photopik-localize/archive/master.zip">https://github.com/masa07/photopik-localize/archive/master.zip</a><br><br> And you could contribute your work to tweet location of your localised file with #PhotoPik or post it on facebook.</div>
+</td></tr>
+</table>
+ 
+</body>
+
+<script type="text/javascript">
+var item=document.getElementsByTagName('iframe');
+//alert(item[0].src);
+var source=item[0].src+doclocSearch;
+//alert(source);
+item[0].src=source;
+</script>
+</html>
